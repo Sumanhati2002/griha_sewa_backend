@@ -10,4 +10,5 @@ public class ListingRequest {
     private String villageName;
     private String contactNumber;
     private boolean isNeedService; // true = NEED, false = OFFER
+    private Long userId;
 }

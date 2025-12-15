@@ -9,5 +9,7 @@ public interface ListingService {
 
     List<ListingResponse> getAllListings();
 
+    List<ListingResponse> getListingsByUserId(Long userId);
+
     void deleteListing(Long id);
 }

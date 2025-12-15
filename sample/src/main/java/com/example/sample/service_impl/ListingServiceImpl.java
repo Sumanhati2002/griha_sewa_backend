@@ -27,6 +27,7 @@ public class ListingServiceImpl implements ListingService {
         listing.setCategory(request.getCategory());
         listing.setVillageName(request.getVillageName());
         listing.setContactNumber(request.getContactNumber());
+        listing.setUserId(request.getUserId());
 
         // Logic: if need service -> NEED, else OFFER
         if (request.isNeedService()) {
@@ -42,6 +43,13 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public List<ListingResponse> getAllListings() {
         return listingRepository.findAll().stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ListingResponse> getListingsByUserId(Long userId) {
+        return listingRepository.findByUserId(userId).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }

@@ -20,4 +20,6 @@ public class Listing {
 
     @Column(nullable = false)
     private String status; // NEED or OFFER
+
+    private Long userId;
 }
