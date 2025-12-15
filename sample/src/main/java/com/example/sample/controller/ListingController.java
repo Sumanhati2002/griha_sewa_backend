@@ -2,11 +2,10 @@ package com.example.sample.controller;
 
 import com.example.sample.dto.ListingRequest;
 import com.example.sample.dto.ListingResponse;
+import com.example.sample.dto.ListingListResponse;
 import com.example.sample.service.ListingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import com.example.sample.dto.SingleListingResponse;
 
@@ -27,13 +26,13 @@ public class ListingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ListingResponse>> getAllListings() {
-        return ResponseEntity.ok(listingService.getAllListings());
+    public ResponseEntity<ListingListResponse> getAllListings() {
+        return ResponseEntity.ok(new ListingListResponse(listingService.getAllListings()));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ListingResponse>> getListingsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(listingService.getListingsByUserId(userId));
+    public ResponseEntity<ListingListResponse> getListingsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(new ListingListResponse(listingService.getListingsByUserId(userId)));
     }
 
     @DeleteMapping("/{id}")
