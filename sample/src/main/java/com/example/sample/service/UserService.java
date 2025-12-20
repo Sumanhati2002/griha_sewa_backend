@@ -3,7 +3,9 @@ package com.example.sample.service;
 import com.example.sample.entity.User;
 
 public interface UserService {
-    User saveMobileNumber(String mobileNumber);
+    User register(String mobileNumber, String name);
 
-    User verifyOtp(String mobileNumber, String otp);
+    User login(String mobileNumber);
+
+    User getUserByMobileNumber(String mobileNumber);
 }

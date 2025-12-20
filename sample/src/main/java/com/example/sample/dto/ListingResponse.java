@@ -12,4 +12,6 @@ public class ListingResponse {
     private String contactNumber;
     private String status;
     private boolean needService;
+    private java.time.LocalDate date;
+    private Long userId;
 }

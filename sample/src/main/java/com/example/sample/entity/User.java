@@ -23,4 +23,7 @@ public class User {
 
     @Column(name = "mobile_number", unique = true, nullable = false)
     private String mobileNumber;
+
+    private String name;
+
 }

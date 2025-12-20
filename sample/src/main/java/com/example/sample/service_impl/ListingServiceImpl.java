@@ -28,6 +28,7 @@ public class ListingServiceImpl implements ListingService {
         listing.setVillageName(request.getVillageName());
         listing.setContactNumber(request.getContactNumber());
         listing.setUserId(request.getUserId());
+        listing.setCreatedAt(java.time.LocalDate.now());
 
         // Logic: if need service -> NEED, else OFFER
         if (request.isNeedService()) {
@@ -69,6 +70,8 @@ public class ListingServiceImpl implements ListingService {
         response.setContactNumber(listing.getContactNumber());
         response.setStatus(listing.getStatus());
         response.setNeedService("NEED".equalsIgnoreCase(listing.getStatus()));
+        response.setDate(listing.getCreatedAt());
+        response.setUserId(listing.getUserId());
         return response;
     }
 }

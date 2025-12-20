@@ -6,16 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class LoginResponse {
     private String message;
-    private LoginData data;
+    private Data data;
 
-    @Data
-    @NoArgsConstructor
+    @lombok.Data
     @AllArgsConstructor
-    public static class LoginData {
+    @NoArgsConstructor
+    public static class Data {
         private String token;
         private User user;
     }

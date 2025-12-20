@@ -22,4 +22,6 @@ public class Listing {
     private String status; // NEED or OFFER
 
     private Long userId;
+
+    private java.time.LocalDate createdAt;
 }
