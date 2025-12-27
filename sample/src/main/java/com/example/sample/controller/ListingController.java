@@ -46,6 +46,11 @@ public class ListingController {
         return ResponseEntity.ok(new ListingListResponse(listingService.getAllListings()));
     }
 
+    @GetMapping("/device/{deviceId}")
+    public ResponseEntity<ListingListResponse> getListingsByDeviceId(@PathVariable String deviceId) {
+        return ResponseEntity.ok(new ListingListResponse(listingService.getListingsByDeviceId(deviceId)));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteListing(@PathVariable Long id) {
         listingService.deleteListing(id);

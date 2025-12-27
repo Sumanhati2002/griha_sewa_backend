@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ListingRepository extends JpaRepository<Listing, Long> {
+    List<Listing> findByDeviceId(String deviceId);
 }

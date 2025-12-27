@@ -23,5 +23,5 @@ public class ListingRequest {
 
     private String mobileNumber;
     private java.time.LocalDate serviceDate;
-
+    private String deviceId;
 }

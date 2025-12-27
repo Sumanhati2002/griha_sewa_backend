@@ -19,5 +19,5 @@ public class ListingResponse {
     private Double latitude;
     private Double longitude;
     private java.time.LocalDate date;
-
+    private String deviceId;
 }

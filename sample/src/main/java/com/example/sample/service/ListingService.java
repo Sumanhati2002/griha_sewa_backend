@@ -11,5 +11,7 @@ public interface ListingService {
 
     List<ListingResponse> getListingsNearby(Double userLat, Double userLon, Double radiusKm);
 
+    List<ListingResponse> getListingsByDeviceId(String deviceId);
+
     void deleteListing(Long id);
 }
