@@ -5,6 +5,8 @@ import com.example.sample.dto.ListingResponse;
 import com.example.sample.entity.Listing;
 import com.example.sample.repository.ListingRepository;
 import com.example.sample.service.ListingService;
+import com.example.sample.service.GeocodingService;
+import com.example.sample.util.DistanceCalculator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +16,11 @@ import java.util.stream.Collectors;
 public class ListingServiceImpl implements ListingService {
 
     private final ListingRepository listingRepository;
+    private final GeocodingService geocodingService;
 
-    public ListingServiceImpl(ListingRepository listingRepository) {
+    public ListingServiceImpl(ListingRepository listingRepository, GeocodingService geocodingService) {
         this.listingRepository = listingRepository;
+        this.geocodingService = geocodingService;
     }
 
     @Override
@@ -27,8 +31,16 @@ public class ListingServiceImpl implements ListingService {
         listing.setCategory(request.getCategory());
         listing.setVillageName(request.getVillageName());
         listing.setContactNumber(request.getContactNumber());
-        listing.setUserId(request.getUserId());
+        listing.setMobileNumber(request.getMobileNumber());
+        listing.setServiceDate(request.getServiceDate());
         listing.setCreatedAt(java.time.LocalDate.now());
+
+        // Geocode village name to get coordinates
+        Double[] coordinates = geocodingService.geocodeVillage(request.getVillageName());
+        if (coordinates != null) {
+            listing.setLatitude(coordinates[0]);
+            listing.setLongitude(coordinates[1]);
+        }
 
         // Logic: if need service -> NEED, else OFFER
         if (request.isNeedService()) {
@@ -49,8 +61,17 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public List<ListingResponse> getListingsByUserId(Long userId) {
-        return listingRepository.findByUserId(userId).stream()
+    public List<ListingResponse> getListingsNearby(Double userLat, Double userLon, Double radiusKm) {
+        return listingRepository.findAll().stream()
+                .filter(listing -> {
+                    if (listing.getLatitude() == null || listing.getLongitude() == null) {
+                        return false; // Skip listings without coordinates
+                    }
+                    double distance = DistanceCalculator.calculateDistance(
+                            userLat, userLon,
+                            listing.getLatitude(), listing.getLongitude());
+                    return distance <= radiusKm;
+                })
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
@@ -68,10 +89,13 @@ public class ListingServiceImpl implements ListingService {
         response.setCategory(listing.getCategory());
         response.setVillageName(listing.getVillageName());
         response.setContactNumber(listing.getContactNumber());
+        response.setMobileNumber(listing.getMobileNumber());
+        response.setServiceDate(listing.getServiceDate());
+        response.setLatitude(listing.getLatitude());
+        response.setLongitude(listing.getLongitude());
         response.setStatus(listing.getStatus());
         response.setNeedService("NEED".equalsIgnoreCase(listing.getStatus()));
         response.setDate(listing.getCreatedAt());
-        response.setUserId(listing.getUserId());
         return response;
     }
 }

@@ -9,7 +9,7 @@ public interface ListingService {
 
     List<ListingResponse> getAllListings();
 
-    List<ListingResponse> getListingsByUserId(Long userId);
+    List<ListingResponse> getListingsNearby(Double userLat, Double userLon, Double radiusKm);
 
     void deleteListing(Long id);
 }

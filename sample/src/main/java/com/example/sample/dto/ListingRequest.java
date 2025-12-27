@@ -19,7 +19,9 @@ public class ListingRequest {
     @jakarta.validation.constraints.NotBlank(message = "Contact number is required")
     private String contactNumber;
 
-    private boolean isNeedService; // true = NEED, false = OFFER
+    private boolean needService; // true = NEED, false = OFFER
 
-    private Long userId;
+    private String mobileNumber;
+    private java.time.LocalDate serviceDate;
+
 }

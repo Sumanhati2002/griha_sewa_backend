@@ -21,7 +21,11 @@ public class Listing {
     @Column(nullable = false)
     private String status; // NEED or OFFER
 
-    private Long userId;
+    private String mobileNumber;
+    private java.time.LocalDate serviceDate;
+
+    private Double latitude;
+    private Double longitude;
 
     private java.time.LocalDate createdAt;
 }
