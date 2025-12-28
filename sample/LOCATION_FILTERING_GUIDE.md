@@ -15,9 +15,9 @@ The API now automatically geocodes village names and filters listings within 50k
 
 ### POST /api/listings (Create Listing)
 
-Village name is **automatically geocoded** - no need to provide coordinates!
+Village name is **automatically geocoded** if you don't provide coordinates. However, you can now also **manually provide coordinates** in the request body.
 
-**Example:**
+**Example 1: Automatic Geocoding (Village Name only)**
 ```json
 {
   "title": "Tractor Available",
@@ -25,11 +25,27 @@ Village name is **automatically geocoded** - no need to provide coordinates!
   "category": "Agriculture",
   "villageName": "Kathmandu",
   "contactNumber": "9876543211",
-  "needService": false
+  "needService": false,
+  "deviceId": "ABC_123"
 }
 ```
 
-The system will automatically find Kathmandu's coordinates and store them.
+**Example 2: Manual Coordinates (Providing Lat/Lng)**
+```json
+{
+  "title": "Tractor Available",
+  "description": "Offering tractor rental",
+  "category": "Agriculture",
+  "villageName": "Kathmandu",
+  "contactNumber": "9876543211",
+  "needService": false,
+  "deviceId": "ABC_123",
+  "latitude": 27.7172,
+  "longitude": 85.3240
+}
+```
+
+If you provide `latitude` and `longitude`, the system will use them directly and skip geocoding.
 
 ---
 

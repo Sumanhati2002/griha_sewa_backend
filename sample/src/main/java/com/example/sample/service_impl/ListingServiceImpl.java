@@ -36,11 +36,17 @@ public class ListingServiceImpl implements ListingService {
         listing.setServiceDate(request.getServiceDate());
         listing.setCreatedAt(java.time.LocalDate.now());
 
-        // Geocode village name to get coordinates
-        Double[] coordinates = geocodingService.geocodeVillage(request.getVillageName());
-        if (coordinates != null) {
-            listing.setLatitude(coordinates[0]);
-            listing.setLongitude(coordinates[1]);
+        // Use provided coordinates if available, otherwise fallback to geocoding
+        if (request.getLatitude() != null && request.getLongitude() != null) {
+            listing.setLatitude(request.getLatitude());
+            listing.setLongitude(request.getLongitude());
+        } else {
+            // Geocode village name to get coordinates
+            Double[] coordinates = geocodingService.geocodeVillage(request.getVillageName());
+            if (coordinates != null) {
+                listing.setLatitude(coordinates[0]);
+                listing.setLongitude(coordinates[1]);
+            }
         }
 
         // Logic: if need service -> NEED, else OFFER
