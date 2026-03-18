@@ -32,7 +32,7 @@ public class ListingServiceImpl implements ListingService {
         listing.setVillageName(request.getVillageName());
         listing.setContactNumber(request.getContactNumber());
         listing.setMobileNumber(request.getMobileNumber());
-        listing.setDeviceId(request.getDeviceId());
+        listing.setUserId(request.getUserId());
         listing.setServiceDate(request.getServiceDate());
         listing.setCreatedAt(java.time.LocalDate.now());
 
@@ -84,8 +84,8 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
-    public List<ListingResponse> getListingsByDeviceId(String deviceId) {
-        return listingRepository.findByDeviceId(deviceId).stream()
+    public List<ListingResponse> getListingsByUserId(String userId) {
+        return listingRepository.findByUserId(userId).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
@@ -110,7 +110,7 @@ public class ListingServiceImpl implements ListingService {
         response.setStatus(listing.getStatus());
         response.setNeedService("NEED".equalsIgnoreCase(listing.getStatus()));
         response.setDate(listing.getCreatedAt());
-        response.setDeviceId(listing.getDeviceId());
+        response.setUserId(listing.getUserId());
         return response;
     }
 }

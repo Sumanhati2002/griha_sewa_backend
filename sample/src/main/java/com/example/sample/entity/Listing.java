@@ -22,7 +22,7 @@ public class Listing {
     private String status; // NEED or OFFER
 
     private String mobileNumber;
-    private String deviceId;
+    private String userId;
     private java.time.LocalDate serviceDate;
 
     private Double latitude;

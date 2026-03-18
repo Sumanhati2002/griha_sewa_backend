@@ -23,7 +23,7 @@ public class ListingRequest {
 
     private String mobileNumber;
     private java.time.LocalDate serviceDate;
-    private String deviceId;
+    private String userId;
     private Double latitude;
     private Double longitude;
 }
