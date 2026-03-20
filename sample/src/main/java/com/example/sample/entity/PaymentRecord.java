@@ -27,4 +27,5 @@ public class PaymentRecord {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime expiryDate;
 }

@@ -85,6 +85,9 @@ public class PaymentService {
                 PaymentRecord record = optionalRecord.get();
                 record.setRazorpayPaymentId(request.getRazorpayPaymentId());
                 record.setStatus(isValid ? "SUCCESS" : "FAILED");
+                if (isValid) {
+                    record.setExpiryDate(LocalDateTime.now().plusMonths(1));
+                }
                 record.setUpdatedAt(LocalDateTime.now());
                 paymentRecordRepository.save(record);
             }
@@ -107,5 +110,32 @@ public class PaymentService {
             result.add(map);
         }
         return result;
+    }
+
+    public boolean isUserUnlocked(String userId) {
+        Optional<PaymentRecord> lastSuccess = paymentRecordRepository.findFirstByUserIdAndStatusOrderByExpiryDateDesc(userId, "SUCCESS");
+        if (lastSuccess.isPresent()) {
+            PaymentRecord record = lastSuccess.get();
+            return record.getExpiryDate() != null && record.getExpiryDate().isAfter(LocalDateTime.now());
+        }
+        return false;
+    }
+
+    public Map<String, Object> getUnlockStatus(String userId) {
+        Optional<PaymentRecord> lastSuccess = paymentRecordRepository.findFirstByUserIdAndStatusOrderByExpiryDateDesc(userId, "SUCCESS");
+        if (lastSuccess.isPresent()) {
+            PaymentRecord record = lastSuccess.get();
+            boolean isUnlocked = record.getExpiryDate() != null && record.getExpiryDate().isAfter(LocalDateTime.now());
+            return Map.of(
+                "isUnlocked", isUnlocked,
+                "expiryDate", record.getExpiryDate() != null ? record.getExpiryDate() : "",
+                "userId", userId
+            );
+        }
+        return Map.of(
+            "isUnlocked", false,
+            "expiryDate", "",
+            "userId", userId
+        );
     }
 }

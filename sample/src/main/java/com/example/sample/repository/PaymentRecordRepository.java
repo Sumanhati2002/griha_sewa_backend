@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface PaymentRecordRepository extends JpaRepository<PaymentRecord, Long> {
     Optional<PaymentRecord> findByRazorpayOrderId(String razorpayOrderId);
+    
+    Optional<PaymentRecord> findFirstByUserIdAndStatusOrderByExpiryDateDesc(String userId, String status);
 }

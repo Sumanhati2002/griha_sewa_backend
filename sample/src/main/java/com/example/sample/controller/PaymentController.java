@@ -51,4 +51,14 @@ public class PaymentController {
             return ResponseEntity.status(500).body(Map.of("message", "Failed to fetch payments: " + e.getMessage()));
         }
     }
+
+    @GetMapping("/status/{userId}")
+    public ResponseEntity<?> getPaymentStatus(@PathVariable String userId) {
+        try {
+            return ResponseEntity.ok(paymentService.getUnlockStatus(userId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("message", "Failed to fetch status: " + e.getMessage()));
+        }
+    }
 }
